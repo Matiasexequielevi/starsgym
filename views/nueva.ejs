@@ -21,7 +21,7 @@
       height: 100%;
       background-image: url('/images/logo-stars.png');
       background-repeat: repeat;
-      background-size: 120px;
+      background-size: 100px;
       opacity: 0.03;
       z-index: 0;
     }
@@ -64,13 +64,31 @@
       background-color: black;
       color: white;
     }
+
+    .logo-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #00b7c2;
+    }
+
+    footer {
+      margin-top: 3rem;
+      color: #666;
+      border-top: 2px solid black;
+    }
   </style>
 </head>
 <body>
 
   <div class="container mt-5 mb-4">
+    <div class="text-center mb-4">
+      <img src="/images/logo-stars.png" alt="Logo Stars" class="logo-img shadow">
+      <h2 class="mt-3">Nuevo Cliente</h2>
+    </div>
+
     <a href="/" class="btn btn-outline-secondary mb-4">← Volver</a>
-    <h2 class="text-center mb-4">Nuevo Cliente</h2>
 
     <form action="/nueva" method="POST" class="card p-4 shadow">
       <div class="row mb-3">
@@ -150,6 +168,10 @@
 
       <button type="submit" class="btn btn-primary w-100">💾 Guardar Cliente</button>
     </form>
+
+    <footer class="text-center text-muted small pt-3">
+      Todos los derechos reservados - M.L DESARROLLOS WEB.
+    </footer>
   </div>
 
 </body>

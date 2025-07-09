@@ -79,6 +79,14 @@
       color: #666;
       border-top: 2px solid black;
     }
+
+    .logo-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #00b7c2;
+    }
   </style>
 </head>
 <body>
@@ -90,12 +98,13 @@
     </div>
 
     <div class="text-center mb-4">
-      <img src="/images/logo-stars.png" alt="Logo Stars" class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;">
+      <img src="/images/logo-stars.png" alt="Logo Stars" class="logo-img shadow">
       <h2 class="fw-bold mt-3"> Alumno <%= cliente.nombre %> <%= cliente.apellido %></h2>
     </div>
 
     <form action="/editar/<%= cliente._id %>" method="POST">
       <div class="card p-4 mb-5">
+        <!-- Datos personales -->
         <div class="row mb-3">
           <div class="col-md-6">
             <label class="form-label fw-bold">Nombre:</label>
@@ -144,6 +153,7 @@
           value="<%= Object.entries(cliente.asistencia?.semanal || {}).filter(([dia, activo]) => activo).map(([dia]) => dia.charAt(0).toUpperCase() + dia.slice(1)).join(', ') %>">
         </div>
 
+        <!-- Plan de entrenamiento -->
         <div class="card p-4 mt-4">
           <h5 class="fw-bold mb-3">Plan de Entrenamiento (por día)</h5>
           <div class="row mb-3">
@@ -172,32 +182,13 @@
           </div>
         </div>
 
-        <div class="card p-4 mt-4 mb-4">
-          <h5 class="text-success fw-bold mb-3">Resumen del Plan Semanal</h5>
-          <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center align-middle">
-              <thead class="table-success">
-                <tr>
-                  <th>Día</th>
-                  <th>Ejercicios / Rutina</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>Lunes</td><td><%= cliente.planLunes || '—' %></td></tr>
-                <tr><td>Martes</td><td><%= cliente.planMartes || '—' %></td></tr>
-                <tr><td>Miércoles</td><td><%= cliente.planMiercoles || '—' %></td></tr>
-                <tr><td>Jueves</td><td><%= cliente.planJueves || '—' %></td></tr>
-                <tr><td>Viernes</td><td><%= cliente.planViernes || '—' %></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+        <!-- Botones -->
         <button type="button" id="editarBtn" class="btn btn-warning w-100 mt-4">Editar Información</button>
         <button type="submit" id="guardarBtn" class="btn btn-primary w-100 mt-3 d-none">Guardar Cambios</button>
       </div>
     </form>
 
+    <!-- PAGOS -->
     <div class="card p-4 shadow-sm mb-5">
       <h4 class="mb-4">Pagos del Alumno</h4>
       <form action="/agregar-pago/<%= cliente._id %>" method="POST" class="row g-3 mb-4">

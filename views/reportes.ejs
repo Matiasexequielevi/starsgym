@@ -88,6 +88,17 @@
     .btn-outline-dark {
       border: 2px solid black;
     }
+
+    .btn-imprimir {
+      float: right;
+      margin-bottom: 20px;
+    }
+
+    @media print {
+      .no-imprimir {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -97,12 +108,12 @@
   </header>
 
   <div class="container py-4">
-    <div class="text-center mb-4">
+    <div class="text-center mb-4 no-imprimir">
       <a href="/" class="btn btn-outline-dark mb-3">&larr; Volver al Inicio</a>
       <h3 class="fw-bold text-primary">📊 Reporte de Ingresos</h3>
     </div>
 
-    <div class="row justify-content-center mb-4">
+    <div class="row justify-content-center mb-4 no-imprimir">
       <div class="col-auto">
         <input type="text" id="rangoFechas" class="form-control" placeholder="Seleccionar rango de fechas">
       </div>
@@ -126,21 +137,29 @@
       </div>
     <% } %>
 
+    <div class="mb-3 no-imprimir text-end">
+      <button class="btn btn-dark btn-imprimir" onclick="window.print()">🖨️ Imprimir Caja</button>
+    </div>
+
     <div class="table-responsive">
       <table class="table table-bordered text-center align-middle">
         <thead>
           <tr>
             <th>Cliente</th>
             <th>Fecha</th>
+            <th>Concepto</th>
             <th>Monto</th>
+            <th>Método de Pago</th>
           </tr>
         </thead>
         <tbody id="tablaPagos">
           <% pagos.forEach(pago => { %>
             <tr>
               <td><%= pago.nombre %></td>
-              <td><%= pago.fecha.toLocaleDateString() %></td>
+              <td><%= new Date(pago.fecha).toLocaleDateString() %></td>
+              <td>Cuota</td>
               <td>$<%= pago.monto.toFixed(2) %></td>
+              <td><%= pago.metodo || 'No especificado' %></td>
             </tr>
           <% }) %>
         </tbody>
