@@ -17,7 +17,6 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Fondo con logos múltiples */
     body::before {
       content: "";
       position: absolute;
@@ -28,7 +27,7 @@
       background-image: url('/images/logo-stars.png');
       background-repeat: repeat;
       background-size: 150px;
-      opacity: 0.02;
+      opacity: 0.025;
       z-index: 0;
       transform: rotate(-15deg);
     }
@@ -44,9 +43,23 @@
       z-index: 1;
     }
 
+    .logo-header {
+      background-color: white;
+      border: 2px solid black;
+      border-bottom: none;
+      padding: 1rem 2rem;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .login-logo {
-      width: 160px;
-      margin-bottom: 1rem;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
       animation: aparecer 2s ease forwards;
       filter: drop-shadow(0 0 12px #00eaffaa);
       transition: transform 0.5s, filter 0.5s;
@@ -75,10 +88,10 @@
       padding: 2rem;
       border-radius: 16px;
       border: 2px solid black;
+      border-top: none;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       width: 100%;
       max-width: 400px;
-      margin-top: 1rem;
     }
 
     .form-label {
@@ -110,7 +123,10 @@
 
 <body>
   <div class="login-container">
-    <img src="/images/logo-stars.png" alt="Logo STARS GYM" class="login-logo" />
+    <div class="logo-header">
+      <img src="/images/logo-stars.png" alt="Logo STARS GYM" class="login-logo" />
+    </div>
+
     <div class="login-box">
       <form action="/login" method="POST">
         <div class="mb-3">
