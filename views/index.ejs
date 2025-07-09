@@ -36,7 +36,7 @@
       z-index: 0;
     }
 
-    header * , .footer * {
+    header *, .footer * {
       position: relative;
       z-index: 1;
     }
@@ -106,7 +106,7 @@
 
     /* Estilo del modal */
     .modal-password .modal-content {
-      border: 2px solid #007bff;
+      border: 2px solid #00b7c2;
       border-radius: 10px;
     }
   </style>
@@ -198,27 +198,31 @@
   </div>
 
   <!-- Modal para clave -->
-  <div class="modal fade" id="modalClaveReportes" tabindex="-1" aria-labelledby="claveModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-password">
-      <div class="modal-content">
+<div class="modal fade" id="modalClaveReportes" tabindex="-1" aria-labelledby="claveModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-password">
+    <div class="modal-content">
+      <form action="/reporte-verificar" method="POST">
         <div class="modal-header">
           <h5 class="modal-title">Clave para Reportes</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <input type="password" id="claveReportes" class="form-control" placeholder="Ingrese clave..." />
+          <input type="password" name="claveSecreta" class="form-control" placeholder="Ingrese clave..." required />
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" onclick="verificarClave()">Ingresar</button>
+          <button type="submit" class="btn btn-info">Ingresar</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
 
+
+  <!-- Scripts -->
   <script>
+    // Buscador
     const buscador = document.getElementById('buscador');
     const filas = document.querySelectorAll('#tablaClientes tbody tr');
-
     buscador.addEventListener('input', () => {
       const texto = buscador.value.toLowerCase();
       filas.forEach(fila => {
@@ -227,9 +231,10 @@
       });
     });
 
+    // Verificar Clave Reportes
     function verificarClave() {
       const clave = document.getElementById('claveReportes').value;
-      if (clave === 'starsgym456') {
+      if (clave === '2025') {
         window.location.href = '/reportes';
       } else {
         alert('Clave incorrecta.');
