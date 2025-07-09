@@ -70,9 +70,6 @@ app.get('/logout', (req, res) => {
 // 🔒 Rutas protegidas
 app.use('/', verificarLogin, clientesRoutes);
 
-req.session.destroy(() => {
-  res.redirect('/login');
-});
 
 
 // ▶️ Iniciar servidor
