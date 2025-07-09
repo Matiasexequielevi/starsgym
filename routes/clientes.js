@@ -38,12 +38,12 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const { usuario, contrasena } = req.body;
+  const { usuario, clave } = req.body;
 
   // ✅ Simple login hardcodeado (puede reemplazarse por DB)
-  if (usuario === 'admin' && contrasena === '1234') {
+  if (usuario === 'starsgym' && contrasena === 'starsgym123') {
     req.session.usuario = usuario;
-    res.redirect('/reportes');
+    res.redirect('/index');
   } else {
     res.render('login', { error: 'Usuario o contraseña incorrectos' });
   }
