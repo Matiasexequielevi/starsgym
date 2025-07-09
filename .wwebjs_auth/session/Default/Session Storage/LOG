@@ -1,2 +1,3 @@
-2025/07/09-17:07:08.756 3dcc Creating DB C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Session Storage since it was missing.
-2025/07/09-17:07:08.766 3dcc Reusing MANIFEST C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001
+2025/07/09-17:38:17.489 6cec Reusing MANIFEST C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001
+2025/07/09-17:38:17.491 6cec Recovering log #3
+2025/07/09-17:38:17.492 6cec Reusing old log C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Session Storage/000003.log 

@@ -127,18 +127,26 @@
       <img src="/images/logo-stars.png" alt="Logo STARS GYM" class="login-logo" />
     </div>
 
-    <div class="login-box">
-      <form action="/login" method="POST">
-        <div class="mb-3">
-          <label for="clave" class="form-label">Contraseña de acceso</label>
-          <input type="password" class="form-control" id="clave" name="clave" required />
-        </div>
-        <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Ingresar al sistema</button>
-        </div>
-      </form>
+   <div class="login-box"> 
+  <form action="/login" method="POST">
+    
+    <div class="mb-3">
+      <label for="usuario" class="form-label">Usuario</label>
+      <input type="text" class="form-control" id="usuario" name="usuario" required />
     </div>
-  </div>
+
+    <div class="mb-3">
+      <label for="clave" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" id="clave" name="clave" required />
+    </div>
+
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary">Ingresar al sistema</button>
+    </div>
+
+  </form>
+</div>
+
 
   <footer>
     Todos los derechos reservados - M.L DESARROLLOS WEB.

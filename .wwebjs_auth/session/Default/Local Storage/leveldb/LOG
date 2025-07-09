@@ -1,2 +1,3 @@
-2025/07/09-17:07:04.744 9f44 Creating DB C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb since it was missing.
-2025/07/09-17:07:04.750 9f44 Reusing MANIFEST C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/07/09-17:38:16.771 2f94 Reusing MANIFEST C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/07/09-17:38:16.772 2f94 Recovering log #3
+2025/07/09-17:38:16.773 2f94 Reusing old log C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb/000003.log 
