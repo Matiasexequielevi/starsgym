@@ -27,9 +27,46 @@
       background-image: url('/images/logo-stars.png');
       background-repeat: repeat;
       background-size: 150px;
-      opacity: 0.025;
+      opacity: 0.02;
       z-index: 0;
       transform: rotate(-15deg);
+    }
+
+    .header-bar {
+      background-color: white;
+      border-bottom: 2px solid black;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .header-bar img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: drop-shadow(0 0 12px #00eaffaa);
+      animation: aparecer 1.5s ease forwards;
+      transition: transform 0.5s, filter 0.5s;
+    }
+
+    .header-bar img:hover {
+      transform: scale(1.1) rotateY(360deg);
+      filter: drop-shadow(0 0 18px #00eaff);
+    }
+
+    @keyframes aparecer {
+      from {
+        transform: scale(0.5);
+        opacity: 0;
+        filter: brightness(0.4);
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+        filter: brightness(1);
+      }
     }
 
     .login-container {
@@ -39,48 +76,7 @@
       align-items: center;
       justify-content: center;
       padding: 2rem;
-      position: relative;
       z-index: 1;
-    }
-
-    .logo-header {
-      background-color: white;
-      border: 2px solid black;
-      border-bottom: none;
-      padding: 1rem 2rem;
-      border-radius: 0 0 16px 16px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .login-logo {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 50%;
-      animation: aparecer 2s ease forwards;
-      filter: drop-shadow(0 0 12px #00eaffaa);
-      transition: transform 0.5s, filter 0.5s;
-    }
-
-    .login-logo:hover {
-      transform: scale(1.15) rotateY(360deg);
-      filter: drop-shadow(0 0 18px #00eaff);
-    }
-
-    @keyframes aparecer {
-      0% {
-        transform: scale(0.5);
-        opacity: 0;
-        filter: brightness(0.4);
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-        filter: brightness(1);
-      }
     }
 
     .login-box {
@@ -88,10 +84,10 @@
       padding: 2rem;
       border-radius: 16px;
       border: 2px solid black;
-      border-top: none;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       width: 100%;
       max-width: 400px;
+      margin-top: 1.5rem;
     }
 
     .form-label {
@@ -113,41 +109,43 @@
     footer {
       text-align: center;
       padding: 1rem;
-      background-color: #fdfdfd;
+      background-color: white;
       border-top: 2px solid black;
       color: #333;
       font-size: 0.9rem;
+      margin-top: auto;
     }
   </style>
 </head>
 
 <body>
+  <!-- Encabezado con logo centrado -->
+  <div class="header-bar">
+    <img src="/images/logo-stars.png" alt="Logo STARS GYM" />
+  </div>
+
+  <!-- Formulario -->
   <div class="login-container">
-    <div class="logo-header">
-      <img src="/images/logo-stars.png" alt="Logo STARS GYM" class="login-logo" />
+    <div class="login-box"> 
+      <form action="/login" method="POST">
+        <div class="mb-3">
+          <label for="usuario" class="form-label">Usuario</label>
+          <input type="text" class="form-control" id="usuario" name="usuario" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="clave" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="clave" name="clave" required />
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Ingresar al sistema</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-   <div class="login-box"> 
-  <form action="/login" method="POST">
-    
-    <div class="mb-3">
-      <label for="usuario" class="form-label">Usuario</label>
-      <input type="text" class="form-control" id="usuario" name="usuario" required />
-    </div>
-
-    <div class="mb-3">
-      <label for="clave" class="form-label">Contraseña</label>
-      <input type="password" class="form-control" id="clave" name="clave" required />
-    </div>
-
-    <div class="d-grid">
-      <button type="submit" class="btn btn-primary">Ingresar al sistema</button>
-    </div>
-
-  </form>
-</div>
-
-
+  <!-- Footer -->
   <footer>
     Todos los derechos reservados - M.L DESARROLLOS WEB.
   </footer>
