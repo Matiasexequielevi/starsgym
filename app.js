@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'); 
 const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 🔐 Configurar sesión
 app.use(session({
-  secret: 'jp-entrenamiento', // podés cambiar la clave secreta
+  secret: 'stars-gym-key', // Clave secreta personalizada
   resave: false,
   saveUninitialized: false
 }));
@@ -45,30 +45,32 @@ function verificarLogin(req, res, next) {
 
 // 🌐 Rutas públicas
 app.get('/login', (req, res) => {
-  res.render('login', { error: null }); // pasa null al principio
+  res.render('login', { error: null }); // Muestra error solo si lo hay
 });
 
 app.post('/login', (req, res) => {
-  const { usuario, contrasena } = req.body;
+  const { usuario, clave } = req.body;
 
-  if (usuario === 'jpentrenamiento' && contrasena === 'burack123') {
+  // ✅ Datos de acceso de STARS GYM (hardcodeado)
+  if (usuario === 'starsgym' && clave === 'starsgym123') {
     req.session.usuario = usuario;
-    res.redirect('/');
+    res.redirect('/'); // Inicio protegido
   } else {
     res.render('login', { error: 'Usuario o contraseña incorrectos' });
   }
 });
 
+// 🔐 Logout
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect('/login');
   });
 });
 
-// 🔒 Rutas protegidas (clientes, reportes, pagos, etc.)
+// 🔒 Rutas protegidas
 app.use('/', verificarLogin, clientesRoutes);
 
 // ▶️ Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 STARS GYM corriendo en http://localhost:${PORT}`);
 });
