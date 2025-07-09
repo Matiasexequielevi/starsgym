@@ -57,7 +57,7 @@ router.get('/reporte-verificar', verificarSesion, (req, res) => {
 router.post('/reporte-verificar', verificarSesion, (req, res) => {
   const { claveSecreta } = req.body;
 
-  if (claveSecreta === 'claveSuperSecreta123') {
+  if (claveSecreta === '2025') {
     req.session.reportesAutorizado = true;
     return res.redirect('/reportes');
   } else {
