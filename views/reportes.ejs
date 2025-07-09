@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reporte de Ingresos - STARS GYM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #00eaff, #a8f8ff);
+      font-family: 'Segoe UI', sans-serif;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/images/logo-stars.png');
+      background-repeat: repeat;
+      background-size: 120px;
+      opacity: 0.03;
+      z-index: 0;
+    }
+
+    header, .container, .footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: #fdfdfd;
+      border-bottom: 2px solid black;
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+
+    header img {
+      width: 90px;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer {
+      background-color: #fdfdfd;
+      color: #222;
+      border-top: 2px solid black;
+      text-align: center;
+      padding: 0.8rem 0;
+      margin-top: 3rem;
+      font-weight: 500;
+    }
+
+    #rangoFechas {
+      max-width: 300px;
+      margin: 0 auto;
+      border: 2px solid #00b7c2;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: bold;
+      color: #00b7c2;
+      text-align: center;
+      background-color: white;
+    }
+
+    .table thead th {
+      background-color: #000;
+      color: white;
+    }
+
+    .resumen-total {
+      font-size: 1.3rem;
+    }
+
+    .caja-dia {
+      background-color: #ffffff;
+      border: 2px solid black;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .btn-outline-dark {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="/images/logo-stars.png" alt="Logo STARS">
+    <h2 class="fw-bold">STARS GYM</h2>
+  </header>
+
+  <div class="container py-4">
+    <div class="text-center mb-4">
+      <a href="/" class="btn btn-outline-dark mb-3">&larr; Volver al Inicio</a>
+      <h3 class="fw-bold text-primary">📊 Reporte de Ingresos</h3>
+    </div>
+
+    <div class="row justify-content-center mb-4">
+      <div class="col-auto">
+        <input type="text" id="rangoFechas" class="form-control" placeholder="Seleccionar rango de fechas">
+      </div>
+    </div>
+
+    <div class="text-center mb-4">
+      <h5 class="resumen-total">
+        Total Ingresos: <span class="text-success">$<span id="totalFiltro"><%= total.toFixed(2) %></span></span>
+      </h5>
+    </div>
+
+    <% if (cajas && cajas.length > 0) { %>
+      <div class="mb-5">
+        <h4 class="fw-bold mb-3 text-dark">💰 Cajas Diarias</h4>
+        <% cajas.forEach(caja => { %>
+          <div class="caja-dia">
+            <strong><%= new Date(caja.fecha).toLocaleDateString() %>:</strong>
+            <span class="text-success fw-bold">$<%= caja.total.toFixed(2) %></span>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody id="tablaPagos">
+          <% pagos.forEach(pago => { %>
+            <tr>
+              <td><%= pago.nombre %></td>
+              <td><%= pago.fecha.toLocaleDateString() %></td>
+              <td>$<%= pago.monto.toFixed(2) %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    Todos los derechos reservados - Levi Prog.
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script>
+    $(function () {
+      $('#rangoFechas').daterangepicker({
+        startDate: moment("<%= desde %>"),
+        endDate: moment("<%= hasta %>"),
+        locale: {
+          format: 'YYYY-MM-DD',
+          separator: ' al ',
+          applyLabel: 'Aplicar',
+          cancelLabel: 'Cancelar',
+          daysOfWeek: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+          monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+          firstDay: 1
+        }
+      }, function(start, end) {
+        const url = `/reportes?desde=${start.format('YYYY-MM-DD')}&hasta=${end.format('YYYY-MM-DD')}`;
+        window.location.href = url;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>STARS GYM - Alumnos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #00eaff, #a8f8ff);
+      font-family: 'Segoe UI', sans-serif;
+      position: relative;
+    }
+
+    header, .footer {
+      background-color: #fdfdfd;
+      padding: 1.5rem 0;
+      text-align: center;
+      color: #111;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+
+    header img {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+    }
+
+    .resumen-box {
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 2px solid black;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .resumen-box:hover {
+      transform: scale(1.03);
+    }
+
+    .tabla-clientes th {
+      background-color: black;
+      color: white;
+    }
+
+    .tabla-clientes {
+      background-color: white;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary {
+      background-color: #00b7c2;
+      border: none;
+    }
+
+    .btn-success {
+      background-color: #0bbd78;
+      border: none;
+    }
+
+    .btn-outline-dark {
+      border: 2px solid black;
+      color: black;
+    }
+
+    .btn-danger {
+      background-color: #e94e4e;
+    }
+
+    .footer {
+      color: #111;
+      font-weight: 500;
+      margin-top: 3rem;
+      border-top: 2px solid black;
+    }
+
+    .vencido {
+      color: red;
+      font-weight: bold;
+    }
+
+    .aldia {
+      color: green;
+      font-weight: bold;
+    }
+
+    .acciones-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .acciones-bar .btn {
+      min-width: 180px;
+    }
+
+    @media (max-width: 768px) {
+      .acciones-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      #buscador {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="/images/logo-stars.png" alt="Logo Stars Gym">
+    <h2 class="fw-bold">STARS GYM</h2>
+  </header>
+
+  <div class="container my-4">
+
+    <div class="row text-center mb-5">
+      <div class="col-md-4">
+        <div class="resumen-box">
+          <h6>Total Clientes</h6>
+          <h4><%= resumen.totalClientes %></h4>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="resumen-box">
+          <h6 class="text-success">Al Día</h6>
+          <h4 class="text-success"><%= resumen.alDia %></h4>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="resumen-box">
+          <h6 class="text-danger">Vencidos</h6>
+          <h4 class="text-danger"><%= resumen.vencidos %></h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="acciones-bar">
+      <a href="/nueva" class="btn btn-success">➕ Nuevo Alumno</a>
+      <a href="/reportes" class="btn btn-outline-dark">📊 Ver Reportes</a>
+      <input type="text" id="buscador" class="form-control w-50" placeholder="🔍 Buscar por nombre o apellido...">
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle tabla-clientes" id="tablaClientes">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Celular</th>
+            <th>Plan</th>
+            <th>Inicio</th>
+            <th>Pago</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% clientes.forEach(cliente => { %>
+            <tr class="<%= cliente.estadoPago === 'vencido' ? 'table-danger' : '' %>">
+              <td><%= cliente.nombre %> <%= cliente.apellido %></td>
+              <td><%= cliente.edad %></td>
+              <td><%= cliente.celular %></td>
+              <td><%= cliente.plan %></td>
+              <td><%= new Date(cliente.fechaInicio).toLocaleDateString() %></td>
+              <td class="<%= cliente.estadoPago === 'vencido' ? 'vencido' : 'aldia' %>">
+                <% if (cliente.pagos.length > 0) { %>
+                  <%= new Date(cliente.pagos[cliente.pagos.length - 1].fecha).toLocaleDateString() %>
+                <% } else { %>
+                  -
+                <% } %>
+              </td>
+              <td>
+                <% if (cliente.estadoPago === 'vencido') { %>
+                  <span class="badge bg-danger">VENCIDO</span>
+                <% } else { %>
+                  <span class="badge bg-success">AL DÍA</span>
+                <% } %>
+              </td>
+              <td>
+                <a href="/editar/<%= cliente._id %>" class="btn btn-sm btn-primary">Ver Alumno</a>
+                <form action="/eliminar/<%= cliente._id %>" method="POST" class="d-inline">
+                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar cliente?')">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    Todos los derechos reservados - Levi Prog.
+  </div>
+
+  <script>
+    const buscador = document.getElementById('buscador');
+    const filas = document.querySelectorAll('#tablaClientes tbody tr');
+
+    buscador.addEventListener('input', () => {
+      const texto = buscador.value.toLowerCase();
+      filas.forEach(fila => {
+        const nombre = fila.children[0].textContent.toLowerCase();
+        fila.style.display = nombre.includes(texto) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
