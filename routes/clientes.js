@@ -50,6 +50,30 @@ router.post('/login', (req, res) => {
   }
 });
 
+router.get('/reporte-verificar', verificarSesion, (req, res) => {
+  res.render('verificarClave'); // vista con formulario
+});
+
+router.post('/reporte-verificar', verificarSesion, (req, res) => {
+  const { claveSecreta } = req.body;
+
+  if (claveSecreta === 'claveSuperSecreta123') {
+    req.session.reportesAutorizado = true;
+    return res.redirect('/reportes');
+  } else {
+    return res.render('verificarClave', { error: 'Clave incorrecta' });
+  }
+});
+
+// Proteger la ruta de reportes
+router.get('/reportes', verificarSesion, (req, res) => {
+  if (req.session.reportesAutorizado) {
+    return clienteController.reportePagos(req, res);
+  } else {
+    return res.redirect('/reporte-verificar');
+  }
+});
+
 // Logout
 router.get('/logout', (req, res) => {
   req.session.destroy(() => {

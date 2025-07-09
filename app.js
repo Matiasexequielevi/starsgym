@@ -70,6 +70,11 @@ app.get('/logout', (req, res) => {
 // 🔒 Rutas protegidas
 app.use('/', verificarLogin, clientesRoutes);
 
+req.session.destroy(() => {
+  res.redirect('/login');
+});
+
+
 // ▶️ Iniciar servidor
 app.listen(PORT, () => {
   console.log(`🚀 STARS GYM corriendo en http://localhost:${PORT}`);
