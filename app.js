@@ -4,6 +4,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const clientesRoutes = require('./routes/clientes');
+const gastosRoutes = require('./routes/gastos'); // ✅ NUEVO
 
 dotenv.config();
 
@@ -70,7 +71,8 @@ app.get('/logout', (req, res) => {
 // 🔒 Rutas protegidas
 app.use('/', verificarLogin, clientesRoutes);
 
-
+// 🌐 Ruta pública para gastos (solo protegida al eliminar gastos con clave)
+app.use('/gastos', gastosRoutes); // ✅ NUEVA
 
 // ▶️ Iniciar servidor
 app.listen(PORT, () => {
