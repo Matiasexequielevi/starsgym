@@ -7,18 +7,38 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(to bottom right, #00eaff, #a8f8ff);
+      background: linear-gradient(to bottom right, #e6faff, #f1fdff);
       font-family: 'Segoe UI', sans-serif;
       position: relative;
     }
 
     header, .footer {
-      background-color: #fdfdfd;
+      background-color: #ffffff;
       padding: 1.5rem 0;
       text-align: center;
       color: #111;
       border-top: 2px solid black;
       border-bottom: 2px solid black;
+      position: relative;
+    }
+
+    header::before, .footer::before {
+      content: "";
+      background-image: url('/images/logo-stars.png');
+      background-repeat: repeat;
+      background-size: 110px;
+      opacity: 0.03;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 0;
+    }
+
+    header * , .footer * {
+      position: relative;
+      z-index: 1;
     }
 
     header img {
@@ -52,41 +72,13 @@
       box-shadow: 0 0 12px rgba(0,0,0,0.1);
     }
 
-    .btn-primary {
-      background-color: #00b7c2;
-      border: none;
-    }
+    .btn-primary { background-color: #00b7c2; border: none; }
+    .btn-success { background-color: #0bbd78; border: none; }
+    .btn-outline-dark { border: 2px solid black; color: black; }
+    .btn-danger { background-color: #e94e4e; }
 
-    .btn-success {
-      background-color: #0bbd78;
-      border: none;
-    }
-
-    .btn-outline-dark {
-      border: 2px solid black;
-      color: black;
-    }
-
-    .btn-danger {
-      background-color: #e94e4e;
-    }
-
-    .footer {
-      color: #111;
-      font-weight: 500;
-      margin-top: 3rem;
-      border-top: 2px solid black;
-    }
-
-    .vencido {
-      color: red;
-      font-weight: bold;
-    }
-
-    .aldia {
-      color: green;
-      font-weight: bold;
-    }
+    .vencido { color: red; font-weight: bold; }
+    .aldia { color: green; font-weight: bold; }
 
     .acciones-bar {
       display: flex;
@@ -111,6 +103,12 @@
         width: 100% !important;
       }
     }
+
+    /* Estilo del modal */
+    .modal-password .modal-content {
+      border: 2px solid #007bff;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -121,7 +119,6 @@
   </header>
 
   <div class="container my-4">
-
     <div class="row text-center mb-5">
       <div class="col-md-4">
         <div class="resumen-box">
@@ -145,7 +142,7 @@
 
     <div class="acciones-bar">
       <a href="/nueva" class="btn btn-success">➕ Nuevo Alumno</a>
-      <a href="/reportes" class="btn btn-outline-dark">📊 Ver Reportes</a>
+      <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalClaveReportes">📊 Ver Reportes</button>
       <input type="text" id="buscador" class="form-control w-50" placeholder="🔍 Buscar por nombre o apellido...">
     </div>
 
@@ -174,9 +171,7 @@
               <td class="<%= cliente.estadoPago === 'vencido' ? 'vencido' : 'aldia' %>">
                 <% if (cliente.pagos.length > 0) { %>
                   <%= new Date(cliente.pagos[cliente.pagos.length - 1].fecha).toLocaleDateString() %>
-                <% } else { %>
-                  -
-                <% } %>
+                <% } else { %> - <% } %>
               </td>
               <td>
                 <% if (cliente.estadoPago === 'vencido') { %>
@@ -199,7 +194,25 @@
   </div>
 
   <div class="footer">
-    Todos los derechos reservados - Levi Prog.
+    <p>Todos los derechos reservados - Levi Prog.</p>
+  </div>
+
+  <!-- Modal para clave -->
+  <div class="modal fade" id="modalClaveReportes" tabindex="-1" aria-labelledby="claveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-password">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Clave para Reportes</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="password" id="claveReportes" class="form-control" placeholder="Ingrese clave..." />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" onclick="verificarClave()">Ingresar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -213,6 +226,17 @@
         fila.style.display = nombre.includes(texto) ? '' : 'none';
       });
     });
+
+    function verificarClave() {
+      const clave = document.getElementById('claveReportes').value;
+      if (clave === 'starsgym456') {
+        window.location.href = '/reportes';
+      } else {
+        alert('Clave incorrecta.');
+      }
+    }
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
