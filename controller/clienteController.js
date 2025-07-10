@@ -1,4 +1,4 @@
-const Cliente = require('../models/cliente');
+const Cliente = require('../models/cliente'); 
 const whatsappClient = require('../services/whatsapp');
 
 // Mostrar todos los clientes con resumen de pagos y cumpleaños
@@ -89,7 +89,6 @@ exports.listarClientes = async (req, res) => {
     }
   }
 
-  // Ordenar: vencidos primero
   clientes.sort((a, b) => {
     if (a.estadoPago === 'vencido' && b.estadoPago !== 'vencido') return -1;
     if (a.estadoPago !== 'vencido' && b.estadoPago === 'vencido') return 1;
@@ -164,12 +163,12 @@ exports.eliminarCliente = async (req, res) => {
   }
 };
 
-// Agregar pago
+// ✅ Agregar pago con método
 exports.agregarPago = async (req, res) => {
-  const { fecha, monto } = req.body;
+  const { fecha, monto, metodo } = req.body;
   try {
     const cliente = await Cliente.findById(req.params.id);
-    cliente.pagos.push({ fecha, monto });
+    cliente.pagos.push({ fecha, monto, metodo });
     cliente.notificado = false;
     await cliente.save();
     res.redirect('/editar/' + req.params.id);
@@ -227,7 +226,8 @@ exports.reportePagos = async (req, res) => {
         pagosFiltrados.push({
           nombre: cliente.nombre + ' ' + cliente.apellido,
           fecha: new Date(p.fecha),
-          monto: p.monto
+          monto: p.monto,
+          metodo: p.metodo || '—'
         });
       });
     });
@@ -235,7 +235,6 @@ exports.reportePagos = async (req, res) => {
     pagosFiltrados.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     const total = pagosFiltrados.reduce((acc, pago) => acc + pago.monto, 0);
 
-    // Cajas diarias agrupadas
     const cajas = [];
     const agrupado = {};
 

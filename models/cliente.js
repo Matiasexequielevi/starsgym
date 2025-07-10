@@ -33,10 +33,14 @@ const clienteSchema = new mongoose.Schema({
   },
 
   // Historial de pagos
-  pagos: [{
+pagos: [
+  {
     fecha: { type: Date, required: true },
-    monto: { type: Number, required: true }
-  }],
+    monto: { type: Number, required: true },
+    metodo: { type: String, enum: ['Efectivo', 'Transferencia'], required: true }
+  }
+],
+
 
   // Plan de entrenamiento personalizado por día
   planLunes:     { type: String, default: '' },
