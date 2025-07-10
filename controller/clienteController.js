@@ -165,12 +165,26 @@ exports.eliminarCliente = async (req, res) => {
 
 // ✅ Agregar pago con método
 // ✅ Agregar pago con método
+// ✅ Agregar pago con chequeo de campos
 exports.agregarPago = async (req, res) => {
-  const { fecha, monto, metodo } = req.body;
   try {
+    const { fecha, monto, metodo } = req.body;
+
+    console.log('🧾 Pago recibido:', { fecha, monto, metodo });
+
+    // Validaciones mínimas
+    if (!fecha || !monto || !metodo) {
+      return res.status(400).send('Faltan datos del pago');
+    }
+
     const cliente = await Cliente.findById(req.params.id);
+    if (!cliente) {
+      return res.status(404).send('Cliente no encontrado');
+    }
+
     cliente.pagos.push({ fecha, monto, metodo });
     cliente.notificado = false;
+
     await cliente.save();
     res.redirect('/editar/' + req.params.id);
   } catch (error) {
@@ -178,6 +192,7 @@ exports.agregarPago = async (req, res) => {
     res.status(500).send('Error al agregar pago: ' + error.message);
   }
 };
+
 
 // Eliminar pago
 exports.eliminarPago = async (req, res) => {
