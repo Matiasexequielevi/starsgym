@@ -1,5 +1,5 @@
 const Cliente = require('../models/cliente');
-const Gasto = require('../models/gasto'); // ✅ Nuevo: modelo de gastos
+const Gasto = require('../models/Gasto'); // ✅ Nuevo: modelo de gastos
 const whatsappClient = require('../services/whatsapp');
 
 // Mostrar todos los clientes con resumen de pagos y cumpleaños
