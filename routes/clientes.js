@@ -29,29 +29,26 @@ router.post('/eliminar/:id', verificarSesion, clienteController.eliminarCliente)
 router.post('/agregar-pago/:id', verificarSesion, clienteController.agregarPago);
 router.post('/eliminar-pago/:clienteId/:pagoId', verificarSesion, clienteController.eliminarPago);
 
-// Reportes
-router.get('/reportes', verificarSesion, clienteController.reportePagos);
-
 // Login - GET
 router.get('/login', (req, res) => {
-  res.render('login', { error: null }); // para mostrar errores si hay
+  res.render('login', { error: null });
 });
 
 // Login - POST
 router.post('/login', (req, res) => {
   const { usuario, clave } = req.body;
 
-  // ✅ Autenticación simple
   if (usuario === 'starsgym' && clave === 'starsgym123') {
     req.session.usuario = usuario;
-    res.redirect('/'); // O /index si querés una ruta específica
+    res.redirect('/');
   } else {
     res.render('login', { error: 'Usuario o contraseña incorrectos' });
   }
 });
 
+// Verificación adicional para reportes (clave 2025)
 router.get('/reporte-verificar', verificarSesion, (req, res) => {
-  res.render('verificarClave'); // vista con formulario
+  res.render('verificarClave', { error: null });
 });
 
 router.post('/reporte-verificar', verificarSesion, (req, res) => {
@@ -65,7 +62,7 @@ router.post('/reporte-verificar', verificarSesion, (req, res) => {
   }
 });
 
-// Proteger la ruta de reportes
+// Ruta de reportes protegida
 router.get('/reportes', verificarSesion, (req, res) => {
   if (req.session.reportesAutorizado) {
     return clienteController.reportePagos(req, res);
@@ -73,6 +70,18 @@ router.get('/reportes', verificarSesion, (req, res) => {
     return res.redirect('/reporte-verificar');
   }
 });
+
+// Productos
+router.get('/productos', verificarSesion, clienteController.mostrarProductos);
+router.post('/productos/nuevo', verificarSesion, clienteController.guardarProducto);
+router.get('/productos/editar/:id', verificarSesion, clienteController.formularioEditarProducto);
+router.post('/productos/editar/:id', verificarSesion, clienteController.actualizarProductoConClave);
+router.post('/productos/eliminar/:id', verificarSesion, clienteController.eliminarProductoConClave);
+
+// Ventas
+router.get('/ventas', verificarSesion, clienteController.mostrarProductos); // misma vista
+router.post('/ventas', verificarSesion, clienteController.realizarVenta);
+router.get('/ventas/historial', verificarSesion, clienteController.listarVentas); // opcional
 
 // Logout
 router.get('/logout', (req, res) => {
