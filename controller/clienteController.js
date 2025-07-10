@@ -164,6 +164,7 @@ exports.eliminarCliente = async (req, res) => {
 };
 
 // ✅ Agregar pago con método
+// ✅ Agregar pago con método
 exports.agregarPago = async (req, res) => {
   const { fecha, monto, metodo } = req.body;
   try {
@@ -173,7 +174,8 @@ exports.agregarPago = async (req, res) => {
     await cliente.save();
     res.redirect('/editar/' + req.params.id);
   } catch (error) {
-    res.status(500).send('Error al agregar pago');
+    console.error('❌ Error al agregar pago:', error.message);
+    res.status(500).send('Error al agregar pago: ' + error.message);
   }
 };
 
