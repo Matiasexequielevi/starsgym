@@ -110,7 +110,7 @@
   <div class="container py-4">
     <div class="text-center mb-4 no-imprimir">
       <a href="/" class="btn btn-outline-dark mb-3">&larr; Volver al Inicio</a>
-      <h3 class="fw-bold text-primary">📊 Reporte de Ingresos</h3>
+      <h3 class="fw-bold text-primary">📊 Reporte de Ingresos y Egresos</h3>
     </div>
 
     <div class="row justify-content-center mb-4 no-imprimir">
@@ -121,7 +121,9 @@
 
     <div class="text-center mb-4">
       <h5 class="resumen-total">
-        Total Ingresos: <span class="text-success">$<span id="totalFiltro"><%= total.toFixed(2) %></span></span>
+        Total Ingresos: <span class="text-success">$<%= total.toFixed(2) %></span> &nbsp;&nbsp;
+        Total Egresos: <span class="text-danger">$<%= totalGastos.toFixed(2) %></span> &nbsp;&nbsp;
+        <strong class="text-dark">Total Neto: $<%= totalFinal.toFixed(2) %></strong>
       </h5>
     </div>
 
@@ -141,7 +143,8 @@
       <button class="btn btn-dark btn-imprimir" onclick="window.print()">🖨️ Imprimir Caja</button>
     </div>
 
-    <div class="table-responsive">
+    <h5 class="fw-bold text-dark">📥 Detalle de Ingresos</h5>
+    <div class="table-responsive mb-5">
       <table class="table table-bordered text-center align-middle">
         <thead>
           <tr>
@@ -152,14 +155,38 @@
             <th>Método de Pago</th>
           </tr>
         </thead>
-        <tbody id="tablaPagos">
+        <tbody>
           <% pagos.forEach(pago => { %>
             <tr>
               <td><%= pago.nombre %></td>
               <td><%= new Date(pago.fecha).toLocaleDateString() %></td>
               <td>Cuota</td>
               <td>$<%= pago.monto.toFixed(2) %></td>
-              <td><%= pago.metodo || 'No especificado' %></td>
+              <td><%= pago.metodo || '—' %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <h5 class="fw-bold text-dark">📤 Detalle de Egresos</h5>
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Concepto</th>
+            <th>Método</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% gastos.forEach(gasto => { %>
+            <tr>
+              <td><%= new Date(gasto.fecha).toLocaleDateString() %></td>
+              <td><%= gasto.concepto %></td>
+              <td><%= gasto.metodo %></td>
+              <td>$<%= gasto.monto.toFixed(2) %></td>
             </tr>
           <% }) %>
         </tbody>
@@ -168,7 +195,7 @@
   </div>
 
   <div class="footer">
-    Todos los derechos reservados - Levi Prog.
+    Todos los derechos reservados - M.L DESARROLLOS WEB.
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>

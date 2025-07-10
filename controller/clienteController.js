@@ -1,4 +1,5 @@
-const Cliente = require('../models/cliente'); 
+const Cliente = require('../models/cliente');
+const Gasto = require('../models/gasto'); // ✅ Nuevo: modelo de gastos
 const whatsappClient = require('../services/whatsapp');
 
 // Mostrar todos los clientes con resumen de pagos y cumpleaños
@@ -163,16 +164,13 @@ exports.eliminarCliente = async (req, res) => {
   }
 };
 
-// ✅ Agregar pago con método
-// ✅ Agregar pago con método
-// ✅ Agregar pago con chequeo de campos
+// Agregar pago
 exports.agregarPago = async (req, res) => {
   try {
     const { fecha, monto, metodo } = req.body;
 
     console.log('🧾 Pago recibido:', { fecha, monto, metodo });
 
-    // Validaciones mínimas
     if (!fecha || !monto || !metodo) {
       return res.status(400).send('Faltan datos del pago');
     }
@@ -193,7 +191,6 @@ exports.agregarPago = async (req, res) => {
   }
 };
 
-
 // Eliminar pago
 exports.eliminarPago = async (req, res) => {
   const { clienteId, pagoId } = req.params;
@@ -207,7 +204,7 @@ exports.eliminarPago = async (req, res) => {
   }
 };
 
-// Reporte de pagos con cajas diarias
+// Reporte de pagos con cajas diarias y gastos
 exports.reportePagos = async (req, res) => {
   try {
     if (!req.session || !req.session.reportesAutorizado) {
@@ -252,6 +249,11 @@ exports.reportePagos = async (req, res) => {
     pagosFiltrados.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     const total = pagosFiltrados.reduce((acc, pago) => acc + pago.monto, 0);
 
+    // 🔻 GASTOS
+    const gastos = await Gasto.find({ fecha: { $gte: desde, $lte: hasta } });
+    const totalGastos = gastos.reduce((acc, g) => acc + g.monto, 0);
+    const totalFinal = total - totalGastos;
+
     const cajas = [];
     const agrupado = {};
 
@@ -269,7 +271,10 @@ exports.reportePagos = async (req, res) => {
 
     res.render('reportes', {
       pagos: pagosFiltrados,
+      gastos,
       total,
+      totalGastos,
+      totalFinal,
       desde: desde.toISOString().split('T')[0],
       hasta: hasta.toISOString().split('T')[0],
       cajas
