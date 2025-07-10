@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const session = require('express-session');
 const clientesRoutes = require('./routes/clientes');
 const gastosRoutes = require('./routes/gastos'); // ✅ NUEVO
-const ventasRoutes = require('./routes/ventas');
+
 
 
 dotenv.config();
@@ -63,7 +63,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.use('/ventas', ventasRoutes);
+
 app.use('/productos', require('./routes/productos'));
 
 // 🔐 Logout
