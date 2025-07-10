@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Reporte de Ingresos - STARS GYM</title>
+  <title>Reporte de Ingresos y Egresos - STARS GYM</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <style>
     body {
-      background: linear-gradient(to bottom right, #00eaff, #a8f8ff);
+      background: linear-gradient(to bottom right, #e0fafd, #f7feff);
       font-family: 'Segoe UI', sans-serif;
       position: relative;
     }
@@ -55,18 +55,6 @@
       font-weight: 500;
     }
 
-    #rangoFechas {
-      max-width: 300px;
-      margin: 0 auto;
-      border: 2px solid #00b7c2;
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-weight: bold;
-      color: #00b7c2;
-      text-align: center;
-      background-color: white;
-    }
-
     .table thead th {
       background-color: #000;
       color: white;
@@ -76,15 +64,6 @@
       font-size: 1.3rem;
     }
 
-    .caja-dia {
-      background-color: #ffffff;
-      border: 2px solid black;
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
     .btn-outline-dark {
       border: 2px solid black;
     }
@@ -92,6 +71,25 @@
     .btn-imprimir {
       float: right;
       margin-bottom: 20px;
+    }
+
+    .filtro-fechas {
+      max-width: 340px;
+      margin-bottom: 2rem;
+    }
+
+    .filtro-fechas input {
+      border-radius: 10px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .fila-ingreso {
+      background-color: #e6fff0;
+    }
+
+    .fila-egreso {
+      background-color: #ffeaea;
     }
 
     @media print {
@@ -108,14 +106,15 @@
   </header>
 
   <div class="container py-4">
-    <div class="text-center mb-4 no-imprimir">
-      <a href="/" class="btn btn-outline-dark mb-3">&larr; Volver al Inicio</a>
-      <h3 class="fw-bold text-primary">📊 Reporte de Ingresos y Egresos</h3>
+    <div class="d-flex justify-content-between align-items-center mb-4 no-imprimir">
+      <a href="/" class="btn btn-outline-dark">&larr; Volver al Inicio</a>
+      <h3 class="fw-bold text-primary m-0">📊 Reporte de Ingresos y Egresos</h3>
+      <div style="width: 180px;"></div>
     </div>
 
-    <div class="row justify-content-center mb-4 no-imprimir">
+    <div class="row justify-content-center filtro-fechas no-imprimir">
       <div class="col-auto">
-        <input type="text" id="rangoFechas" class="form-control" placeholder="Seleccionar rango de fechas">
+        <input type="text" id="rangoFechas" class="form-control border border-dark" placeholder="Seleccionar rango de fechas">
       </div>
     </div>
 
@@ -127,69 +126,48 @@
       </h5>
     </div>
 
-    <% if (cajas && cajas.length > 0) { %>
-      <div class="mb-5">
-        <h4 class="fw-bold mb-3 text-dark">💰 Cajas Diarias</h4>
-        <% cajas.forEach(caja => { %>
-          <div class="caja-dia">
-            <strong><%= new Date(caja.fecha).toLocaleDateString() %>:</strong>
-            <span class="text-success fw-bold">$<%= caja.total.toFixed(2) %></span>
-          </div>
-        <% }) %>
-      </div>
-    <% } %>
-
     <div class="mb-3 no-imprimir text-end">
       <button class="btn btn-dark btn-imprimir" onclick="window.print()">🖨️ Imprimir Caja</button>
     </div>
 
-    <h5 class="fw-bold text-dark">📥 Detalle de Ingresos</h5>
-    <div class="table-responsive mb-5">
-      <table class="table table-bordered text-center align-middle">
-        <thead>
-          <tr>
-            <th>Cliente</th>
-            <th>Fecha</th>
-            <th>Concepto</th>
-            <th>Monto</th>
-            <th>Método de Pago</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% pagos.forEach(pago => { %>
-            <tr>
-              <td><%= pago.nombre %></td>
-              <td><%= new Date(pago.fecha).toLocaleDateString() %></td>
-              <td>Cuota</td>
-              <td>$<%= pago.monto.toFixed(2) %></td>
-              <td><%= pago.metodo || '—' %></td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
-    </div>
-
-    <h5 class="fw-bold text-dark">📤 Detalle de Egresos</h5>
     <div class="table-responsive">
       <table class="table table-bordered text-center align-middle">
         <thead>
           <tr>
+            <th>Tipo</th>
             <th>Fecha</th>
-            <th>Concepto</th>
+            <th>Nombre / Concepto</th>
             <th>Método</th>
             <th>Monto</th>
           </tr>
         </thead>
         <tbody>
+          <% pagos.forEach(pago => { %>
+            <tr class="fila-ingreso">
+              <td>➕</td>
+              <td><%= new Date(pago.fecha).toLocaleDateString() %></td>
+              <td><%= pago.nombre %> (Cuota)</td>
+              <td><%= pago.metodo || '—' %></td>
+              <td class="text-success">$<%= pago.monto.toFixed(2) %></td>
+            </tr>
+          <% }) %>
+
           <% gastos.forEach(gasto => { %>
-            <tr>
+            <tr class="fila-egreso">
+              <td>➖</td>
               <td><%= new Date(gasto.fecha).toLocaleDateString() %></td>
               <td><%= gasto.concepto %></td>
               <td><%= gasto.metodo %></td>
-              <td>$<%= gasto.monto.toFixed(2) %></td>
+              <td class="text-danger">-$<%= gasto.monto.toFixed(2) %></td>
             </tr>
           <% }) %>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="fw-bold text-end">TOTAL NETO:</td>
+            <td class="fw-bold text-dark">$<%= totalFinal.toFixed(2) %></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
