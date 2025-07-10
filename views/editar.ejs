@@ -12,45 +12,47 @@
       position: relative;
     }
 
-    input[readonly],
-    textarea[readonly] {
-      background-color: #f8f9fa;
-      border: none;
-      resize: none;
-    }
-
-    .fondo-logo {
+    body::before {
+      content: "";
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
       background-image: url('/images/logo-stars.png');
       background-repeat: repeat;
       background-size: 100px;
       opacity: 0.03;
-      pointer-events: none;
+      z-index: 0;
     }
 
-    .contenido {
+    .container {
       position: relative;
       z-index: 1;
+      max-width: 950px;
     }
 
     .card {
+      background: #ffffff;
       border-radius: 20px;
-      background-color: white;
       border: 2px solid black;
-      box-shadow: 0 0 18px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
     }
 
     h2, h4, h5 {
-      color: #00b7c2;
+      font-weight: bold;
+      color: black;
     }
 
     label {
       font-weight: 500;
+    }
+
+    input[readonly],
+    textarea[readonly] {
+      background-color: #f8f9fa;
+      border: none;
+      resize: none;
     }
 
     .btn-primary {
@@ -74,12 +76,6 @@
       color: white;
     }
 
-    footer {
-      margin-top: 3rem;
-      color: #666;
-      border-top: 2px solid black;
-    }
-
     .logo-img {
       width: 100px;
       height: 100px;
@@ -87,175 +83,164 @@
       border-radius: 50%;
       border: 4px solid #00b7c2;
     }
+
+    footer {
+      margin-top: 3rem;
+      color: #666;
+      border-top: 2px solid black;
+    }
   </style>
 </head>
 <body>
-  <div class="fondo-logo"></div>
-  <div class="container py-4 contenido">
+  <div class="container py-4">
+    <div class="text-center mb-4">
+      <img src="/images/logo-stars.png" alt="Logo Stars" class="logo-img shadow">
+      <h2 class="mt-3">Ficha de <%= cliente.nombre %> <%= cliente.apellido %></h2>
+    </div>
 
     <div class="mb-3">
       <a href="/" class="btn btn-outline-secondary">← Volver</a>
     </div>
 
-    <div class="text-center mb-4">
-      <img src="/images/logo-stars.png" alt="Logo Stars" class="logo-img shadow">
-      <h2 class="fw-bold mt-3"> Alumno <%= cliente.nombre %> <%= cliente.apellido %></h2>
-    </div>
-
+    <!-- Formulario principal -->
     <form action="/editar/<%= cliente._id %>" method="POST">
       <div class="card p-4 mb-5">
-        <!-- Datos personales -->
         <div class="row mb-3">
           <div class="col-md-6">
-            <label class="form-label fw-bold">Nombre:</label>
-            <input type="text" name="nombre" class="form-control" value="<%= cliente.nombre %>" readonly>
+            <label>DNI / ID:</label>
+            <input type="text" name="dni" class="form-control" value="<%= cliente.dni %>" readonly>
           </div>
           <div class="col-md-6">
-            <label class="form-label fw-bold">Apellido:</label>
+            <label>Apellido:</label>
             <input type="text" name="apellido" class="form-control" value="<%= cliente.apellido %>" readonly>
           </div>
         </div>
 
         <div class="row mb-3">
-          <div class="col-md-4">
-            <label class="form-label fw-bold">Edad:</label>
+          <div class="col-md-6">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" class="form-control" value="<%= cliente.nombre %>" readonly>
+          </div>
+          <div class="col-md-3">
+            <label>Edad:</label>
             <input type="number" name="edad" class="form-control" value="<%= cliente.edad %>" readonly>
           </div>
-          <div class="col-md-4">
-            <label class="form-label fw-bold">Fecha de Nacimiento:</label>
-            <input type="date" name="fechaNacimiento" class="form-control" value="<%= cliente.fechaNacimiento ? cliente.fechaNacimiento.toISOString().split('T')[0] : '' %>" readonly>
+          <div class="col-md-3">
+            <label>Fecha Nac:</label>
+            <input type="date" name="fechaNacimiento" class="form-control" value="<%= cliente.fechaNacimiento?.toISOString().split('T')[0] %>" readonly>
           </div>
-          <div class="col-md-4">
-            <label class="form-label fw-bold">Celular:</label>
-            <input type="text" name="celular" class="form-control" value="<%= cliente.celular %>" readonly>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-bold">Dirección:</label>
-          <input type="text" name="direccion" class="form-control" value="<%= cliente.direccion %>" readonly>
         </div>
 
         <div class="row mb-3">
           <div class="col-md-6">
-            <label class="form-label fw-bold">Fecha de Inicio:</label>
-            <input type="date" name="fechaInicio" class="form-control" value="<%= cliente.fechaInicio.toISOString().split('T')[0] %>" readonly>
+            <label>Celular:</label>
+            <input type="text" name="celular" class="form-control" value="<%= cliente.celular %>" readonly>
           </div>
           <div class="col-md-6">
-            <label class="form-label fw-bold">Plan:</label>
+            <label>Dirección:</label>
+            <input type="text" name="direccion" class="form-control" value="<%= cliente.direccion %>" readonly>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label>Inicio:</label>
+            <input type="date" name="fechaInicio" class="form-control" value="<%= cliente.fechaInicio?.toISOString().split('T')[0] %>" readonly>
+          </div>
+          <div class="col-md-6">
+            <label>Plan:</label>
             <input type="text" name="plan" class="form-control" value="<%= cliente.plan %>" readonly>
           </div>
         </div>
 
         <div class="mb-3">
-          <label class="form-label fw-bold">Asistencia:</label>
+          <label>Asistencia:</label>
           <input type="text" class="form-control" readonly 
-          value="<%= Object.entries(cliente.asistencia?.semanal || {}).filter(([dia, activo]) => activo).map(([dia]) => dia.charAt(0).toUpperCase() + dia.slice(1)).join(', ') %>">
+            value="<%= Object.entries(cliente.asistencia?.semanal || {}).filter(([dia, activo]) => activo).map(([dia]) => dia.charAt(0).toUpperCase() + dia.slice(1)).join(', ') %>">
         </div>
 
-        <!-- Plan de entrenamiento -->
         <div class="card p-4 mt-4">
-          <h5 class="fw-bold mb-3">Plan de Entrenamiento (por día)</h5>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">Lunes:</label>
-              <textarea name="planLunes" class="form-control" rows="2" readonly><%= cliente.planLunes || '' %></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Martes:</label>
-              <textarea name="planMartes" class="form-control" rows="2" readonly><%= cliente.planMartes || '' %></textarea>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">Miércoles:</label>
-              <textarea name="planMiercoles" class="form-control" rows="2" readonly><%= cliente.planMiercoles || '' %></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Jueves:</label>
-              <textarea name="planJueves" class="form-control" rows="2" readonly><%= cliente.planJueves || '' %></textarea>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Viernes:</label>
-            <textarea name="planViernes" class="form-control" rows="2" readonly><%= cliente.planViernes || '' %></textarea>
+          <h5 class="mb-3">Plan de Entrenamiento</h5>
+          <% const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']; %>
+          <div class="row">
+            <% dias.forEach((dia, i) => { %>
+              <div class="col-md-6 mb-3">
+                <label><%= dia %>:</label>
+                <textarea name="plan<%= dia %>" class="form-control" rows="2" readonly><%= cliente['plan' + dia] || '' %></textarea>
+              </div>
+            <% }) %>
           </div>
         </div>
 
-        <!-- Botones -->
         <button type="button" id="editarBtn" class="btn btn-warning w-100 mt-4">Editar Información</button>
         <button type="submit" id="guardarBtn" class="btn btn-primary w-100 mt-3 d-none">Guardar Cambios</button>
       </div>
     </form>
 
-   <!-- PAGOS -->
-<div class="card p-4 shadow-sm mb-5">
-  <h4 class="mb-4">Pagos del Alumno</h4>
+    <!-- PAGOS -->
+    <div class="card p-4 shadow-sm mb-5">
+      <h4 class="mb-4">Pagos del Alumno</h4>
 
-  <form action="/agregar-pago/<%= cliente._id %>" method="POST" class="row g-3 mb-4">
-    <div class="col-md-4">
-      <label>Fecha de Pago</label>
-      <input type="date" name="fecha" class="form-control" required>
+      <form action="/agregar-pago/<%= cliente._id %>" method="POST" class="row g-3 mb-4 align-items-end">
+        <div class="col-md-4">
+          <label>Fecha de Pago</label>
+          <input type="date" name="fecha" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+          <label>Monto</label>
+          <input type="number" name="monto" step="0.01" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label>Método</label>
+          <select name="metodo" class="form-select" required>
+            <option value="">Seleccionar...</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+          </select>
+        </div>
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-success w-100">+</button>
+        </div>
+      </form>
+
+      <% if (cliente.pagos && cliente.pagos.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Fecha</th>
+                <th>Monto</th>
+                <th>Método</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% let total = 0; %>
+              <% cliente.pagos.forEach((pago) => { total += pago.monto; %>
+              <tr>
+                <td><%= new Date(pago.fecha).toLocaleDateString() %></td>
+                <td>$<%= pago.monto.toFixed(2) %></td>
+                <td><%= pago.metodo || '—' %></td>
+                <td>
+                  <form action="/eliminar-pago/<%= cliente._id %>/<%= pago._id %>" method="POST" onsubmit="return pedirClave('eliminar');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="2">Total</th>
+                <th colspan="2">$<%= total.toFixed(2) %></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      <% } else { %>
+        <p class="text-muted">No hay pagos registrados aún.</p>
+      <% } %>
     </div>
-
-    <div class="col-md-4">
-      <label>Monto</label>
-      <input type="number" name="monto" step="0.01" class="form-control" required>
-    </div>
-
-    <div class="col-md-3">
-      <label>Método de Pago</label>
-      <select name="metodo" class="form-select" required>
-        <option value="">Seleccionar...</option>
-        <option value="Efectivo">Efectivo</option>
-        <option value="Transferencia">Transferencia</option>
-      </select>
-    </div>
-
-    <div class="col-md-1 d-flex align-items-end">
-      <button type="submit" class="btn btn-success w-100">Agregar</button>
-    </div>
-  </form>
-
-  <% if (cliente.pagos && cliente.pagos.length > 0) { %>
-    <div class="table-responsive">
-      <table class="table table-bordered text-center align-middle">
-        <thead class="table-light">
-          <tr>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Método</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% let total = 0; %>
-          <% cliente.pagos.forEach((pago) => { total += pago.monto; %>
-            <tr>
-              <td><%= new Date(pago.fecha).toLocaleDateString() %></td>
-              <td>$<%= pago.monto.toFixed(2) %></td>
-              <td><%= pago.metodo || '—' %></td>
-              <td>
-                <form action="/eliminar-pago/<%= cliente._id %>/<%= pago._id %>" method="POST" onsubmit="return confirm('¿Eliminar este pago?');">
-                  <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                </form>
-              </td>
-            </tr>
-          <% }) %>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th colspan="2">Total</th>
-            <th colspan="2">$<%= total.toFixed(2) %></th>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  <% } else { %>
-    <p class="text-muted">No hay pagos registrados aún.</p>
-  <% } %>
-</div>
-
 
     <footer class="text-center text-muted small pt-3">
       Todos los derechos reservados - Levi Prog.
@@ -263,13 +248,18 @@
   </div>
 
   <script>
+    // Botón editar/guardar
     document.getElementById('editarBtn').addEventListener('click', () => {
-      document.querySelectorAll('input, textarea').forEach(input => {
-        input.removeAttribute('readonly');
-      });
+      document.querySelectorAll('input, textarea').forEach(input => input.removeAttribute('readonly'));
       document.getElementById('editarBtn').classList.add('d-none');
       document.getElementById('guardarBtn').classList.remove('d-none');
     });
+
+    // Requiere clave para eliminar
+    function pedirClave(accion) {
+      const clave = prompt('Ingrese la clave para ' + accion + ':');
+      return clave === 'stars123'; // <-- puedes cambiar la clave aquí
+    }
   </script>
 </body>
 </html>
