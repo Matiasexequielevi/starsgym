@@ -125,8 +125,84 @@
       border: 2px solid #00b7c2;
       border-radius: 10px;
     }
+    .alerta-cumple {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  width: 280px;
+  max-width: 90vw;
+  font-weight: bold;
+  animation: slideIn 0.6s ease;
+}
+
+.alerta-hoy {
+  background-color: #fff8d0;
+  border: 2px solid #ffcc00;
+  color: #111;
+  margin-bottom: 15px;
+}
+
+.alerta-proximos {
+  background-color: #e6f0ff;
+  border: 2px solid #007bff;
+  color: #111;
+}
+
+.alerta-cumple button {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  color: #444;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
   </style>
 </head>
+<% if (cumpleañeros.length > 0) { %>
+  <div class="alerta-cumple alerta-hoy">
+    <strong>🎉 ¡Cumpleaños de Hoy!</strong>
+    <ul class="mb-2">
+      <% cumpleañeros.forEach(nombre => { %>
+        <li><%= nombre %></li>
+      <% }) %>
+    </ul>
+    <p>¡No te olvides de saludar! 🎂</p>
+    <button onclick="this.parentElement.style.display='none'">✖</button>
+  </div>
+<% } %>
+
+<% if (proximosCumples.length > 0) { %>
+  <div class="alerta-cumple alerta-proximos">
+    <strong>🎁 Próximos Cumpleaños</strong>
+    <ul class="mb-2">
+      <% proximosCumples.forEach(nombre => { %>
+        <li>🎈 <%= nombre %></li>
+      <% }) %>
+    </ul>
+    <p>¡Prepará los saludos y sorpresas! 🥳</p>
+    <button onclick="this.parentElement.style.display='none'">✖</button>
+  </div>
+<% } %>
+
 <body>
 
   <header>
@@ -211,7 +287,7 @@
   </div>
 
   <div class="footer">
-    <p>Todos los derechos reservados - Levi Prog.</p>
+    <p>Todos los derechos reservados - M.L DESARROLLOS WEB.</p>
   </div>
 
   <!-- Modal para clave -->

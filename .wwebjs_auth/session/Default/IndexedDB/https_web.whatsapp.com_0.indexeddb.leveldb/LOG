@@ -189,3 +189,10 @@
 2025/07/09-22:19:34.889 816c compacted to: files[ 0 1 1 0 0 0 0 ]
 2025/07/09-22:19:34.891 816c Delete type=2 #1666
 2025/07/09-22:19:34.892 816c Manual compaction at level-0 from ' ;\x02\x00\x00\x05' @ 336103 : 0 .. ' <\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/10-18:06:47.700 7cc8 Compacting 1@1 + 1@2 files
+2025/07/10-18:06:47.734 7cc8 Generated table #1668@1: 418 keys, 10553 bytes
+2025/07/10-18:06:47.734 7cc8 Compacted 1@1 + 1@2 files => 10553 bytes
+2025/07/10-18:06:47.737 7cc8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/07/10-18:06:47.740 7cc8 Delete type=2 #100
+2025/07/10-18:06:47.742 7cc8 Delete type=2 #1664
+2025/07/10-18:06:47.743 7cc8 Delete type=2 #1667
