@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const productoController = require('../controller/productoController');
+const clienteController = require('../controller/clienteController');
 
-// Mostrar listado de productos
-router.get('/', productoController.mostrarProductos);
+// Mostrar productos
+router.get('/', clienteController.mostrarProductos);
 
-// Formulario nuevo producto
-router.get('/nuevo', productoController.formularioNuevoProducto);
-router.post('/nuevo', productoController.guardarProducto);
+// Crear producto
+router.get('/nuevo', clienteController.formularioNuevoProducto);
+router.post('/nuevo', clienteController.guardarProducto);
 
-// Formulario para editar producto
-router.get('/editar/:id', productoController.formularioEditarProducto);
-router.post('/editar/:id', productoController.actualizarProductoConClave);
+// Editar producto
+router.get('/editar/:id', clienteController.formularioEditarProducto);
+router.post('/editar/:id', clienteController.actualizarProductoConClave);
 
-// Eliminar producto con clave
-router.post('/eliminar/:id', productoController.eliminarProductoConClave);
+// Eliminar producto
+router.post('/eliminar/:id', clienteController.eliminarProductoConClave);
 
 module.exports = router;
