@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const session = require('express-session');
 const clientesRoutes = require('./routes/clientes');
 const gastosRoutes = require('./routes/gastos'); // ✅ NUEVO
+const ventasRoutes = require('./routes/ventas');
+
 
 dotenv.config();
 
@@ -60,6 +62,9 @@ app.post('/login', (req, res) => {
     res.render('login', { error: 'Usuario o contraseña incorrectos' });
   }
 });
+
+app.use('/ventas', ventasRoutes);
+app.use('/productos', require('./routes/productos'));
 
 // 🔐 Logout
 app.get('/logout', (req, res) => {

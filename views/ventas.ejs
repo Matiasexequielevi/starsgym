@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ventas - Stars Gym</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #e6faff, #f1fdff);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header, footer {
+      background-color: white;
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+
+    header img {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 0 12px #00b7c2;
+    }
+
+    header h2 {
+      font-weight: bold;
+      text-shadow: 0 0 4px #00b7c2;
+    }
+
+    .volver-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .volver-btn {
+        position: static;
+        margin-bottom: 1rem;
+        display: block;
+      }
+    }
+
+    .container {
+      max-width: 1100px;
+      margin-top: 30px;
+    }
+
+    .producto-card {
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(0,0,0,0.05);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .producto-card:hover {
+      transform: scale(1.03);
+    }
+
+    .producto-card h5 {
+      font-weight: bold;
+      color: #00b7c2;
+    }
+
+    .form-select, .form-control {
+      border: 2px solid #ccc;
+    }
+
+    .btn {
+      min-width: 120px;
+    }
+
+    footer {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="position-relative">
+    <a href="/" class="btn btn-outline-dark volver-btn">← Volver</a>
+    <img src="/images/logo-stars.png" alt="Logo Stars Gym">
+    <h2>VENTAS DE PRODUCTOS</h2>
+  </header>
+
+  <div class="container">
+    <% if (productos && productos.length > 0) { %>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <% productos.forEach(prod => { %>
+          <div class="col">
+            <div class="producto-card h-100">
+              <h5><%= prod.nombre %></h5>
+              <p>Precio: $<%= prod.precio.toFixed(2) %></p>
+              <p>Stock: <%= prod.stock %></p>
+              <% if (prod.stock > 0) { %>
+                <form action="/ventas/realizar" method="POST">
+                  <input type="hidden" name="productoId" value="<%= prod._id %>">
+                  <input type="hidden" name="precio" value="<%= prod.precio %>">
+                  <div class="mb-2">
+                    <select name="metodo" class="form-select" required>
+                      <option value="">Forma de pago</option>
+                      <option value="Efectivo">Efectivo</option>
+                      <option value="Transferencia">Transferencia</option>
+                    </select>
+                  </div>
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-success btn-sm">Vender</button>
+                  </div>
+                </form>
+              <% } else { %>
+                <p class="text-danger fw-bold">Sin stock</p>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p class="text-center mt-5 text-muted">No hay productos cargados aún.</p>
+    <% } %>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p class="mb-0">Todos los derechos reservados - M.L DESARROLLOS WEB</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
