@@ -1,5 +1,5 @@
 // controller/gastoController.js
-const Gasto = require('../models/gasto');
+const Gasto = require('../models/Gasto');
 
 // Mostrar todos los gastos
 exports.mostrarGastos = async (req, res) => {
