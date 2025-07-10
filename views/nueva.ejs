@@ -29,7 +29,38 @@
     .container {
       position: relative;
       z-index: 1;
-      max-width: 900px;
+      max-width: 960px;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    header img {
+      width: 100px;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #00b7c2;
+      animation: glowExpand 3s infinite ease-in-out;
+    }
+
+    @keyframes glowExpand {
+      0%, 100% {
+        transform: rotate(0deg) scale(1);
+        box-shadow: 0 0 20px #00b7c2;
+      }
+      50% {
+        transform: rotate(360deg) scale(1.05);
+        box-shadow: 0 0 40px #00eaff;
+      }
+    }
+
+    h2 {
+      font-weight: bold;
+      color: #000;
+      text-shadow: none;
+      margin-top: 10px;
+      margin-bottom: 30px;
     }
 
     .card {
@@ -37,11 +68,8 @@
       border-radius: 20px;
       border: 2px solid black;
       box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
-    }
-
-    h2 {
-      font-weight: bold;
-      color: #00b7c2;
+      padding: 2rem;
+      margin-bottom: 2rem;
     }
 
     label {
@@ -65,32 +93,26 @@
       color: white;
     }
 
-    .logo-img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 4px solid #00b7c2;
-    }
-
     footer {
-      margin-top: 3rem;
       color: #666;
       border-top: 2px solid black;
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="container mt-5 mb-4">
-    <div class="text-center mb-4">
-      <img src="/images/logo-stars.png" alt="Logo Stars" class="logo-img shadow">
-      <h2 class="mt-3">Nuevo Cliente</h2>
-    </div>
+  <div class="container">
+    <header>
+      <img src="/images/logo-stars.png" alt="Logo Stars Gym">
+      <h2>Nuevo Cliente</h2>
+    </header>
 
     <a href="/" class="btn btn-outline-secondary mb-4">← Volver</a>
 
-    <form action="/nueva" method="POST" class="card p-4 shadow">
+    <form action="/nueva" method="POST" class="card">
       <div class="row mb-3">
         <div class="col-md-6">
           <label>Nombre</label>
@@ -103,15 +125,19 @@
       </div>
 
       <div class="row mb-3">
-        <div class="col-md-3">
+        <div class="col-md-4">
+          <label>Nro DNI / ID</label>
+          <input type="text" name="dni" class="form-control" required>
+        </div>
+        <div class="col-md-2">
           <label>Edad</label>
           <input type="number" name="edad" class="form-control" required>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Fecha de Nacimiento</label>
           <input type="date" name="fechaNacimiento" class="form-control" required>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-3">
           <label>Celular</label>
           <input type="text" name="celular" class="form-control" required>
         </div>
@@ -144,32 +170,19 @@
 
       <div class="mb-3">
         <label>Asistencia (días de entrenamiento)</label><br>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="asistencia.semanal.lunes" value="true">
-          <label class="form-check-label">Lunes</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="asistencia.semanal.martes" value="true">
-          <label class="form-check-label">Martes</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="asistencia.semanal.miercoles" value="true">
-          <label class="form-check-label">Miércoles</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="asistencia.semanal.jueves" value="true">
-          <label class="form-check-label">Jueves</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="asistencia.semanal.viernes" value="true">
-          <label class="form-check-label">Viernes</label>
-        </div>
+        <% const dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes']; %>
+        <% dias.forEach(dia => { %>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="asistencia.semanal.<%= dia %>" value="true">
+            <label class="form-check-label text-capitalize"><%= dia %></label>
+          </div>
+        <% }) %>
       </div>
 
       <button type="submit" class="btn btn-primary w-100">💾 Guardar Cliente</button>
     </form>
 
-    <footer class="text-center text-muted small pt-3">
+    <footer>
       Todos los derechos reservados - M.L DESARROLLOS WEB.
     </footer>
   </div>

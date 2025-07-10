@@ -41,10 +41,36 @@
       z-index: 1;
     }
 
+    /* LOGO CON RESPLANDOR Y ANIMACIÓN */
     header img {
       width: 100px;
       border-radius: 50%;
       margin-bottom: 0.5rem;
+      box-shadow: 0 0 20px #00b7c2;
+      animation: glowExpand 3s infinite ease-in-out;
+    }
+
+    @keyframes glowExpand {
+      0%, 100% {
+        transform: rotate(0deg) scale(1);
+        box-shadow: 0 0 20px #00b7c2;
+      }
+      50% {
+        transform: rotate(360deg) scale(1.05);
+        box-shadow: 0 0 40px #00eaff;
+      }
+    }
+
+    /* TEXTO CON SOMBRA AZUL */
+    header h2 {
+      color: #111;
+      text-shadow: 0 0 4px #00b7c2;
+      animation: pulseText 3s infinite;
+    }
+
+    @keyframes pulseText {
+      0%, 100% { text-shadow: 0 0 4px #00b7c2; }
+      50% { text-shadow: 0 0 12px #00eaff; }
     }
 
     .resumen-box {
@@ -199,25 +225,24 @@
   </div>
 
   <!-- Modal para clave -->
-<div class="modal fade" id="modalClaveReportes" tabindex="-1" aria-labelledby="claveModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-password">
-    <div class="modal-content">
-      <form action="/reporte-verificar" method="POST">
-        <div class="modal-header">
-          <h5 class="modal-title">Clave para Reportes</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <input type="password" name="claveSecreta" class="form-control" placeholder="Ingrese clave..." required />
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-info">Ingresar</button>
-        </div>
-      </form>
+  <div class="modal fade" id="modalClaveReportes" tabindex="-1" aria-labelledby="claveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-password">
+      <div class="modal-content">
+        <form action="/reporte-verificar" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Clave para Reportes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="password" name="claveSecreta" class="form-control" placeholder="Ingrese clave..." required />
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-info">Ingresar</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-
 
   <!-- Scripts -->
   <script>
@@ -231,16 +256,6 @@
         fila.style.display = nombre.includes(texto) ? '' : 'none';
       });
     });
-
-    // Verificar Clave Reportes
-    function verificarClave() {
-      const clave = document.getElementById('claveReportes').value;
-      if (clave === '2025') {
-        window.location.href = '/reportes';
-      } else {
-        alert('Clave incorrecta.');
-      }
-    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
