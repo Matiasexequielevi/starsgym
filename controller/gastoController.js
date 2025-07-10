@@ -11,11 +11,14 @@ exports.mostrarGastos = async (req, res) => {
   }
 };
 
-// Registrar un nuevo gasto (con fecha en hora Argentina)
+// Registrar un nuevo gasto (ajuste de fecha seguro)
 exports.registrarGasto = async (req, res) => {
   const { concepto, monto, metodo, fecha } = req.body;
   try {
-    const fechaArgentina = new Date(new Date(fecha).toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" }));
+    // Ajustar fecha para que siempre se guarde el día correcto en Argentina
+    const partes = fecha.split('-'); // yyyy-mm-dd
+    const fechaArgentina = new Date(partes[0], partes[1] - 1, partes[2], 12, 0, 0); // hora 12:00 para evitar desfasaje
+
     await Gasto.create({ concepto, monto, metodo, fecha: fechaArgentina });
     res.redirect('/gastos');
   } catch (err) {
