@@ -1,4 +1,4 @@
-// models/Gasto.js
+// models/gasto.js
 const mongoose = require('mongoose');
 
 const gastoSchema = new mongoose.Schema({
