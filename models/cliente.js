@@ -37,8 +37,7 @@ pagos: [
   {
     fecha: { type: Date, required: true },
     monto: { type: Number, required: true },
-    metodo: { type: String, enum: ['Efectivo', 'Transferencia'], required: true }
-  }
+metodo: { type: String, required: true }   }
 ],
 
 
