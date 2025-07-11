@@ -75,7 +75,7 @@ router.get('/reportes', verificarSesion, (req, res) => {
 router.get('/productos', verificarSesion, clienteController.mostrarProductos);
 router.post('/productos/nuevo', verificarSesion, clienteController.guardarProducto);
 router.get('/productos/editar/:id', verificarSesion, clienteController.formularioEditarProducto);
-router.post('/productos/editar/:id', verificarSesion, clienteController.actualizarProductoConClave);
+router.post('/productos/editar/:id', verificarSesion, clienteController.actualizarProducto);
 router.post('/productos/eliminar/:id', verificarSesion, clienteController.eliminarProductoConClave);
 
 // Ventas
