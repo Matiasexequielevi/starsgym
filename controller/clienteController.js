@@ -182,24 +182,42 @@ exports.eliminarPago = async (req, res) => {
   }
 };
 
-// Productos
+// ============================
+// PRODUCTOS
+// ============================
+
 exports.mostrarProductos = async (req, res) => {
   try {
     const productos = await Producto.find().sort({ creadoEn: -1 });
     res.render('productos', { productos });
-  } catch {
+  } catch (error) {
+    console.error('❌ Error al cargar los productos:', error.message);
     res.status(500).send('Error al cargar los productos');
   }
 };
 
-exports.formularioNuevoProducto = (req, res) => res.render('nuevo-producto');
+exports.formularioNuevoProducto = (req, res) => {
+  try {
+    res.render('nuevo-producto');
+  } catch (error) {
+    console.error('❌ Error al cargar el formulario de nuevo producto:', error.message);
+    res.status(500).send('Error al cargar el formulario');
+  }
+};
 
 exports.guardarProducto = async (req, res) => {
   try {
     const { nombre, precio, stock } = req.body;
+
+    if (!nombre || !precio || !stock) {
+      console.warn('⚠️ Faltan campos obligatorios para crear producto');
+      return res.status(400).send('Todos los campos son obligatorios');
+    }
+
     await Producto.create({ nombre, precio, stock });
     res.redirect('/productos');
-  } catch {
+  } catch (error) {
+    console.error('❌ Error al guardar el producto:', error.message);
     res.status(500).send('Error al guardar el producto');
   }
 };
@@ -207,8 +225,13 @@ exports.guardarProducto = async (req, res) => {
 exports.formularioEditarProducto = async (req, res) => {
   try {
     const producto = await Producto.findById(req.params.id);
+    if (!producto) {
+      console.warn('⚠️ Producto no encontrado al editar:', req.params.id);
+      return res.status(404).send('Producto no encontrado');
+    }
     res.render('editar-producto', { producto });
-  } catch {
+  } catch (error) {
+    console.error('❌ Error al cargar el producto para editar:', error.message);
     res.status(500).send('Error al cargar el producto');
   }
 };
@@ -218,34 +241,38 @@ exports.actualizarProducto = async (req, res) => {
     const { nombre, precio, stock, clave } = req.body;
 
     if (clave !== '2025') {
+      const producto = await Producto.findById(req.params.id);
       return res.render('editar-producto', {
-        producto: await Producto.findById(req.params.id),
+        producto,
         error: 'Clave incorrecta'
       });
     }
 
-    await Producto.findByIdAndUpdate(req.params.id, {
-      nombre,
-      precio,
-      stock
-    });
-
+    await Producto.findByIdAndUpdate(req.params.id, { nombre, precio, stock });
     res.redirect('/productos');
   } catch (error) {
-    console.error('Error al actualizar producto:', error);
+    console.error('❌ Error al actualizar el producto:', error.message);
     res.status(500).send('Error al actualizar producto');
   }
 };
+
 exports.eliminarProductoConClave = async (req, res) => {
-  const { clave } = req.body;
-  if (clave !== '2025') return res.send('Clave incorrecta. No se puede eliminar.');
   try {
+    const { clave } = req.body;
+
+    if (clave !== '2025') {
+      console.warn('⚠️ Clave incorrecta al intentar eliminar producto:', req.params.id);
+      return res.send('Clave incorrecta. No se puede eliminar.');
+    }
+
     await Producto.findByIdAndDelete(req.params.id);
     res.redirect('/productos');
-  } catch {
+  } catch (error) {
+    console.error('❌ Error al eliminar el producto:', error.message);
     res.status(500).send('Error al eliminar el producto');
   }
 };
+
 
 // Ventas
 exports.realizarVenta = async (req, res) => {
