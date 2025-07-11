@@ -11,3 +11,7 @@
 [0711/204304.786:INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'window-management'.", source:  (0)
 [0711/204304.786:INFO:CONSOLE(0)] "Document-Policy HTTP header: Unrecognized document policy feature name include-js-call-stacks-in-crash-reports.", source: https://web.whatsapp.com/ (0)
 [0711/204308.855:INFO:CONSOLE(163)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yb/r/5LBXMY_-8Fj.js (163)
+[0711/204553.016:INFO:CONSOLE(4)] "Uncaught (in promise) Error: window is not defined", source: https://web.whatsapp.com/ (4)
+[0711/204554.475:INFO:CONSOLE(163)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yb/r/5LBXMY_-8Fj.js (163)
+[0711/204643.389:INFO:CONSOLE(163)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yb/r/5LBXMY_-8Fj.js (163)
+[0711/204807.672:INFO:CONSOLE(163)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yb/r/5LBXMY_-8Fj.js (163)
