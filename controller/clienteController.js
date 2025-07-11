@@ -213,17 +213,29 @@ exports.formularioEditarProducto = async (req, res) => {
   }
 };
 
-exports.actualizarProductoConClave = async (req, res) => {
-  const { nombre, precio, stock, clave } = req.body;
-  if (clave !== '2025') return res.send('Clave incorrecta. No se puede modificar.');
+exports.actualizarProducto = async (req, res) => {
   try {
-    await Producto.findByIdAndUpdate(req.params.id, { nombre, precio, stock });
+    const { nombre, precio, stock, clave } = req.body;
+
+    if (clave !== '2025') {
+      return res.render('editar-producto', {
+        producto: await Producto.findById(req.params.id),
+        error: 'Clave incorrecta'
+      });
+    }
+
+    await Producto.findByIdAndUpdate(req.params.id, {
+      nombre,
+      precio,
+      stock
+    });
+
     res.redirect('/productos');
-  } catch {
-    res.status(500).send('Error al actualizar el producto');
+  } catch (error) {
+    console.error('Error al actualizar producto:', error);
+    res.status(500).send('Error al actualizar producto');
   }
 };
-
 exports.eliminarProductoConClave = async (req, res) => {
   const { clave } = req.body;
   if (clave !== '2025') return res.send('Clave incorrecta. No se puede eliminar.');

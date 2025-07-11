@@ -58,6 +58,7 @@
       text-align: center;
       box-shadow: 0 0 12px rgba(0,0,0,0.05);
       transition: all 0.2s ease-in-out;
+      height: 100%;
     }
 
     .producto-card:hover {
@@ -96,10 +97,12 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <% productos.forEach(prod => { %>
           <div class="col">
-            <div class="producto-card h-100">
-              <h5><%= prod.nombre %></h5>
-              <p>Precio: $<%= prod.precio.toFixed(2) %></p>
-              <p>Stock: <%= prod.stock %></p>
+            <div class="producto-card h-100 d-flex flex-column justify-content-between">
+              <div>
+                <h5><%= prod.nombre %></h5>
+                <p class="mb-1">Precio: $<%= prod.precio.toFixed(2) %></p>
+                <p class="text-muted">Stock: <%= prod.stock %></p>
+              </div>
               <% if (prod.stock > 0) { %>
                 <form action="/ventas/realizar" method="POST">
                   <input type="hidden" name="productoId" value="<%= prod._id %>">
@@ -111,12 +114,10 @@
                       <option value="Transferencia">Transferencia</option>
                     </select>
                   </div>
-                  <div class="d-grid">
-                    <button type="submit" class="btn btn-success btn-sm">Vender</button>
-                  </div>
+                  <button type="submit" class="btn btn-success btn-sm w-100">Vender</button>
                 </form>
               <% } else { %>
-                <p class="text-danger fw-bold">Sin stock</p>
+                <p class="text-danger fw-bold mt-3">Sin stock</p>
               <% } %>
             </div>
           </div>
