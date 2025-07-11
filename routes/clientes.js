@@ -79,9 +79,10 @@ router.post('/productos/editar/:id', verificarSesion, clienteController.actualiz
 router.post('/productos/eliminar/:id', verificarSesion, clienteController.eliminarProductoConClave);
 
 // Ventas
-router.get('/ventas', verificarSesion, clienteController.mostrarProductos); // misma vista
+// Ventas
+router.get('/ventas', verificarSesion, clienteController.listarVentas); // ✅ corregido
 router.post('/ventas', verificarSesion, clienteController.realizarVenta);
-router.get('/ventas/historial', verificarSesion, clienteController.listarVentas); // opcional
+router.get('/ventas/historial', verificarSesion, clienteController.listarVentas);
 
 // Logout
 router.get('/logout', (req, res) => {
