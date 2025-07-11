@@ -81,6 +81,13 @@
     footer {
       margin-top: 50px;
     }
+
+    .toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 1055;
+    }
   </style>
 </head>
 <body>
@@ -91,6 +98,18 @@
     <img src="/images/logo-stars.png" alt="Logo Stars Gym">
     <h2>VENTAS DE PRODUCTOS</h2>
   </header>
+
+  <!-- Mensaje de éxito -->
+  <% if (typeof exito !== 'undefined') { %>
+    <div class="toast-container">
+      <div class="toast show align-items-center text-white bg-success border-0" role="alert">
+        <div class="d-flex">
+          <div class="toast-body"><%= exito %></div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>
+    </div>
+  <% } %>
 
   <div class="container">
     <% if (productos && productos.length > 0) { %>
@@ -126,6 +145,39 @@
     <% } else { %>
       <p class="text-center mt-5 text-muted">No hay productos cargados aún.</p>
     <% } %>
+
+    <!-- Últimas Ventas -->
+    <hr class="my-5">
+    <h4 class="text-center mb-4">🧾 Últimas Ventas Realizadas</h4>
+    <div class="table-responsive">
+      <table class="table table-striped text-center">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Método</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (ventas && ventas.length > 0) { %>
+            <% ventas.forEach(v => { %>
+              <tr>
+                <td><%= v.producto.nombre %></td>
+                <td>$<%= v.precio.toFixed(2) %></td>
+                <td><%= v.metodo %></td>
+                <td><%= new Date(v.fecha).toLocaleString('es-AR') %></td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="4" class="text-muted">No hay ventas registradas aún.</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
   <!-- Footer -->

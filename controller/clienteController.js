@@ -280,20 +280,33 @@ exports.realizarVenta = async (req, res) => {
   try {
     const producto = await Producto.findById(productoId);
     if (!producto || producto.stock <= 0) return res.send('Producto no encontrado o sin stock');
+
     await Venta.create({ producto: producto._id, precio, metodo });
     producto.stock -= 1;
     await producto.save();
-    res.redirect('/ventas');
+
+    // Cargar productos y últimas ventas
+    const productos = await Producto.find().sort({ creadoEn: -1 });
+    const ventas = await Venta.find().populate('producto').sort({ fecha: -1 }).limit(5);
+
+    res.render('ventas', {
+      productos,
+      ventas,
+      exito: '✅ Venta realizada con éxito'
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error al registrar la venta');
   }
 };
 
+
 exports.listarVentas = async (req, res) => {
   try {
     const productos = await Producto.find().sort({ creadoEn: -1 });
-    res.render('ventas', { productos }); // ✅ nombre de vista corregido y variable correcta
+    const ventas = await Venta.find().populate('producto').sort({ fecha: -1 }).limit(5);
+
+    res.render('ventas', { productos, ventas });
   } catch (error) {
     console.error('❌ Error al cargar ventas:', error.message);
     res.status(500).send('Error al cargar ventas');
