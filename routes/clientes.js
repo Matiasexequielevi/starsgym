@@ -79,10 +79,8 @@ router.post('/productos/editar/:id', verificarSesion, clienteController.actualiz
 router.post('/productos/eliminar/:id', verificarSesion, clienteController.eliminarProductoConClave);
 
 // Ventas
-// Ventas
-router.get('/ventas', verificarSesion, clienteController.listarVentas); // ✅ corregido
-router.post('/ventas', verificarSesion, clienteController.realizarVenta);
-router.get('/ventas/historial', verificarSesion, clienteController.listarVentas);
+router.get('/ventas', verificarSesion, clienteController.listarVentas); // Muestra productos y últimas ventas
+router.post('/ventas/realizar', verificarSesion, clienteController.realizarVenta); // ✅ ESTA es la que usa el formulario
 
 // Logout
 router.get('/logout', (req, res) => {
