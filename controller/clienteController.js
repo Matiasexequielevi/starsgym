@@ -292,12 +292,14 @@ exports.realizarVenta = async (req, res) => {
 
 exports.listarVentas = async (req, res) => {
   try {
-    const ventas = await Venta.find().populate('producto').sort({ fecha: -1 });
-    res.render('historial-ventas', { ventas });
-  } catch {
+    const productos = await Producto.find().sort({ creadoEn: -1 });
+    res.render('ventas', { productos }); // ✅ nombre de vista corregido y variable correcta
+  } catch (error) {
+    console.error('❌ Error al cargar ventas:', error.message);
     res.status(500).send('Error al cargar ventas');
   }
 };
+
 
 // Reporte de pagos con ventas, cajas diarias y gastos
 exports.reportePagos = async (req, res) => {
