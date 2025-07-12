@@ -346,7 +346,7 @@ exports.reportePagos = async (req, res) => {
       });
       pagosValidos.forEach(p => {
         ingresos.push({
-          nombre: cliente.nombre + ' ' + cliente.apellido,
+          nombre: cliente.nombre + ' ' + cliente.apellido + ' (Cuota)',
           fecha: new Date(p.fecha),
           monto: p.monto,
           metodo: p.metodo || '—'
