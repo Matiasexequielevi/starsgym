@@ -232,27 +232,25 @@
       </div>
     </div>
 
-   <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-<!-- Bloque de acciones alineadas correctamente -->
+   <!-- BLOQUE COMPLETO DE ACCIONES ORGANIZADAS -->
 <div class="d-flex justify-content-between align-items-start flex-wrap mb-4">
 
-  <!-- Parte izquierda: Gastos y Realizar Venta -->
-  <div class="d-flex flex-column me-3">
-    <a href="/gastos" class="btn btn-outline-danger mb-2">💸 Gastos</a>
+  <!-- Derecha: 3 botones verticales -->
+  <div class="position-absolute top-0 end-0 m-3 d-flex flex-column align-items-end" style="z-index: 1030;">
+  <a href="/logout" class="btn btn-outline-dark mb-2">🔒 Cerrar Sesión</a>
+  <button class="btn btn-outline-dark mb-2" data-bs-toggle="modal" data-bs-target="#modalClaveReportes">📊 Ver Reportes</button>
+  <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalClaveProductos">🛒 Productos y Stock</button>
+</div>
+  <!-- Fila 1: Gastos y Realizar Venta -->
+  <div class="d-flex w-100 justify-content-center mt-3">
+    <a href="/gastos" class="btn btn-outline-danger me-3">💸 Gastos</a>
     <a href="/ventas" class="btn btn-success">💰 Realizar Venta</a>
   </div>
 
-  <!-- Centro: Buscador y Nuevo Alumno -->
-  <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+  <!-- Fila 2: Buscador y Nuevo Alumno -->
+  <div class="d-flex w-100 justify-content-center mt-3">
     <input type="text" id="buscador" class="form-control w-50 me-3" placeholder="🔍 Buscar por nombre o apellido...">
     <a href="/nueva" class="btn btn-success">🏋️ Nuevo Alumno</a>
-  </div>
-
-  <!-- Derecha: Cerrar sesión, Reportes y Productos -->
-  <div class="d-flex flex-column align-items-end">
-    <a href="/logout" class="btn btn-danger mb-2">🔒 Cerrar Sesión</a>
-    <button class="btn btn-outline-dark mb-2" data-bs-toggle="modal" data-bs-target="#modalClaveReportes">📊 Ver Reportes</button>
-    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalClaveProductos">🛒 Productos y Stock</button>
   </div>
 </div>
 
