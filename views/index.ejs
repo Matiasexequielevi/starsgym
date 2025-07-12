@@ -232,16 +232,30 @@
       </div>
     </div>
 
-    <div class="acciones-bar">
+   <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
 
-      <a href="/gastos" class="btn btn-outline-danger me-2">💸 Gastos</a>
-    
-      <a href="/nueva" class="btn btn-success">➕ Nuevo Alumno</a>
-      <a href="/productos" class="btn btn-primary mx-2">🛒 Productos y Stock</a>
-      <a href="/ventas" class="btn btn-success mx-2">💰 Realizar Venta</a>
-      <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalClaveReportes">📊 Ver Reportes</button>
-      <input type="text" id="buscador" class="form-control w-50" placeholder="🔍 Buscar por nombre o apellido...">
-    </div>
+  <!-- Bloque de botones a la derecha (CERRAR, REPORTES, STOCK) -->
+  <div class="d-flex flex-column align-items-end me-3">
+    <a href="/logout" class="btn btn-danger mb-2">🔒 Cerrar Sesión</a>
+    <button class="btn btn-outline-dark mb-2" data-bs-toggle="modal" data-bs-target="#modalClaveReportes">📊 Ver Reportes</button>
+<!-- Botón modificado de Productos y Stock -->
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalClaveProductos">🛒 Productos y Stock</button>
+  </div>
+
+  <!-- Buscador y "Nuevo Alumno" -->
+  <div class="d-flex align-items-center flex-grow-1">
+    <input type="text" id="buscador" class="form-control w-50 me-3" placeholder="🔍 Buscar por nombre o apellido...">
+    <a href="/nueva" class="btn btn-success">🏋️ Nuevo Alumno</a>
+  </div>
+
+  <!-- Otros botones que se mantienen -->
+  <div class="d-flex align-items-center mt-3 w-100">
+    <a href="/gastos" class="btn btn-outline-danger me-2">💸 Gastos</a>
+    <a href="/ventas" class="btn btn-success mx-2">💰 Realizar Venta</a>
+  </div>
+
+</div>
+
 
     <div class="table-responsive">
       <table class="table table-bordered text-center align-middle tabla-clientes" id="tablaClientes">
@@ -313,6 +327,25 @@
       </div>
     </div>
   </div>
+<!-- Modal para clave de Productos -->
+<div class="modal fade" id="modalClaveProductos" tabindex="-1" aria-labelledby="claveProductosLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-password">
+    <div class="modal-content">
+      <form action="/productos-verificar" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title">Clave para Productos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="password" name="claveSecreta" class="form-control" placeholder="Ingrese clave..." required />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info">Ingresar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
   <!-- Scripts -->
   <script>

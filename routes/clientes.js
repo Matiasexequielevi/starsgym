@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'); 
 const router = express.Router();
 const clienteController = require('../controller/clienteController');
 
@@ -71,8 +71,31 @@ router.get('/reportes', verificarSesion, (req, res) => {
   }
 });
 
-// Productos
-router.get('/productos', verificarSesion, clienteController.mostrarProductos);
+// ✅ Verificación adicional para productos (clave 2025)
+router.get('/productos-verificar', verificarSesion, (req, res) => {
+  res.render('verificarClaveProductos', { error: null });
+});
+
+router.post('/productos-verificar', verificarSesion, (req, res) => {
+  const { claveSecreta } = req.body;
+
+  if (claveSecreta === '2025') {
+    req.session.productosAutorizado = true;
+    return res.redirect('/productos');
+  } else {
+    return res.render('verificarClaveProductos', { error: 'Clave incorrecta' });
+  }
+});
+
+// Ruta de productos protegida
+router.get('/productos', verificarSesion, (req, res) => {
+  if (req.session.productosAutorizado) {
+    return clienteController.mostrarProductos(req, res);
+  } else {
+    return res.redirect('/productos-verificar');
+  }
+});
+
 router.post('/productos/nuevo', verificarSesion, clienteController.guardarProducto);
 router.get('/productos/editar/:id', verificarSesion, clienteController.formularioEditarProducto);
 router.post('/productos/editar/:id', verificarSesion, clienteController.actualizarProducto);
