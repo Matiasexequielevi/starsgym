@@ -146,7 +146,17 @@
             <tr class="fila-ingreso">
               <td>➕</td>
               <td><%= new Date(pago.fecha).toLocaleDateString() %></td>
-              <td><%= pago.nombre %> (Cuota)</td>
+              <td>
+  <%= pago.nombre %>
+  <% if (pago.tipo === 'producto') { %>
+    (Producto)
+  <% } else if (pago.tipo === 'cumpleaños') { %>
+    (Cumpleaños)
+  <% } else { %>
+    (Cuota)
+  <% } %>
+</td>
+
               <td><%= pago.metodo || '—' %></td>
               <td class="text-success">$<%= pago.monto.toFixed(2) %></td>
             </tr>
