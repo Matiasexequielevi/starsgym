@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const clienteController = require('../controller/clienteController');
-const Admin = require('../models/Admin');
-const bcrypt = require('bcryptjs');
 
 // Middleware para proteger rutas
 function verificarSesion(req, res, next) {
@@ -36,37 +34,16 @@ router.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
 
-// Login - POST (con base de datos y bcrypt)
-router.post('/login', async (req, res) => {
+// Login - POST
+router.post('/login', (req, res) => {
   const { usuario, clave } = req.body;
-  const admin = await Admin.findOne({ usuario });
 
-  if (admin && await bcrypt.compare(clave, admin.clave)) {
+  if (usuario === 'starsgym' && clave === 'starsgym123') {
     req.session.usuario = usuario;
     res.redirect('/');
   } else {
     res.render('login', { error: 'Usuario o contraseña incorrectos' });
   }
-});
-
-// Perfil del administrador (ver y cambiar contraseña)
-router.get('/perfil', verificarSesion, (req, res) => {
-  res.render('perfil', { mensaje: null });
-});
-
-router.post('/perfil', verificarSesion, async (req, res) => {
-  const { claveActual, nuevaClave } = req.body;
-  const admin = await Admin.findOne({ usuario: req.session.usuario });
-
-  if (!admin || !(await bcrypt.compare(claveActual, admin.clave))) {
-    return res.render('perfil', { mensaje: '❌ Contraseña actual incorrecta' });
-  }
-
-  const nuevoHash = await bcrypt.hash(nuevaClave, 10);
-  admin.clave = nuevoHash;
-  await admin.save();
-
-  res.render('perfil', { mensaje: '✅ Contraseña actualizada correctamente' });
 });
 
 // Verificación adicional para reportes (clave 2025)
@@ -102,8 +79,8 @@ router.post('/productos/editar/:id', verificarSesion, clienteController.actualiz
 router.post('/productos/eliminar/:id', verificarSesion, clienteController.eliminarProductoConClave);
 
 // Ventas
-router.get('/ventas', verificarSesion, clienteController.listarVentas);
-router.post('/ventas/realizar', verificarSesion, clienteController.realizarVenta);
+router.get('/ventas', verificarSesion, clienteController.listarVentas); // Muestra productos y últimas ventas
+router.post('/ventas/realizar', verificarSesion, clienteController.realizarVenta); // ✅ ESTA es la que usa el formulario
 
 // Logout
 router.get('/logout', (req, res) => {

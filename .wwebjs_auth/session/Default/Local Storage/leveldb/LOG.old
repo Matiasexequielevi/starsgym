@@ -1,6 +1,3 @@
-2025/07/10-22:46:39.809 8a7c Reusing MANIFEST C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2025/07/10-22:46:39.810 8a7c Recovering log #4
-2025/07/10-22:46:39.811 8a7c Reusing old log C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb/000004.log 
-2025/07/10-23:04:30.677 6028 Level-0 table #7: started
-2025/07/10-23:04:30.683 6028 Level-0 table #7: 23867 bytes OK
-2025/07/10-23:04:30.686 6028 Delete type=0 #4
+2025/07/11-21:23:10.138 82dc Reusing MANIFEST C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/07/11-21:23:10.139 82dc Recovering log #6
+2025/07/11-21:23:10.140 82dc Reusing old log C:\Users\mati_\OneDrive\Desktop\stargym\.wwebjs_auth\session\Default\Local Storage\leveldb/000006.log 
